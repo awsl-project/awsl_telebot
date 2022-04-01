@@ -4,7 +4,6 @@ import requests
 
 from telebot.types import Message
 from config import settings
-from moyuban import get_moyu_message
 
 
 _logger = logging.getLogger(__name__)
