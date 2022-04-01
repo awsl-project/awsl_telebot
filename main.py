@@ -4,6 +4,7 @@ import requests
 
 from telebot.types import Message
 from config import settings
+from moyuban import get_moyu_message
 
 
 _logger = logging.getLogger(__name__)
@@ -29,6 +30,11 @@ def send_awsl(message: Message):
     res = requests.get(settings.url)
     _logger.info("get url: %s", res.text)
     bot.reply_to(message, res.text)
+
+
+@bot.message_handler(commands=['moyu', 'mo', 'moyuban'])
+def send_moyu(message: Message):
+    bot.reply_to(message, get_moyu_message())
 
 
 _logger.info("start")
