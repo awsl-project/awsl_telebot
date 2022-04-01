@@ -1,8 +1,9 @@
 import logging
+import os
 import telebot
 
-from moyu_config import settings
 from moyuban import get_moyu_message
+from pydantic import BaseSettings
 
 _logger = logging.getLogger(__name__)
 _logger = logging.Logger(__name__)
@@ -15,6 +16,15 @@ ch.setFormatter(formatter)
 _logger.addHandler(ch)
 
 
+class Settings(BaseSettings):
+    telebot_token: str
+    chat_ids: str
+
+    class Config:
+        env_file = os.environ.get("ENV_FILE", ".env")
+
+
+settings = Settings()
 # 注册 bot
 bot = telebot.TeleBot(settings.telebot_token)
 

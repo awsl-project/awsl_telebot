@@ -1,19 +1,7 @@
-import os
-
 from datetime import timedelta, timezone, datetime
 from typing import Dict
-from pydantic import BaseSettings
 
 
-class Settings(BaseSettings):
-    telebot_token: str
-    chat_ids: str
-
-    class Config:
-        env_file = os.environ.get("ENV_FILE", ".env")
-
-
-settings = Settings()
 TZ = timezone(timedelta(hours=8))
 
 
