@@ -28,7 +28,7 @@ def send_welcome(message: Message):
 @bot.message_handler(commands=['se', 'sese', 'awsl'])
 def send_awsl(message: Message):
     res = requests.get(settings.url)
-    _logger.info("get url: %s", res.text)
+    _logger.info("get url: %s - chat_id %s", res.text, message.chat.id)
     bot.reply_to(message, res.text)
 
 
