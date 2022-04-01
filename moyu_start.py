@@ -1,8 +1,8 @@
 import logging
 import os
 import telebot
+import requests
 
-from moyuban import get_moyu_message
 from pydantic import BaseSettings
 
 _logger = logging.getLogger(__name__)
@@ -19,6 +19,7 @@ _logger.addHandler(ch)
 class Settings(BaseSettings):
     telebot_token: str
     chat_ids: str
+    moyu_url: str
 
     class Config:
         env_file = os.environ.get("ENV_FILE", ".env")
@@ -29,4 +30,5 @@ settings = Settings()
 bot = telebot.TeleBot(settings.telebot_token)
 
 for chat_id in settings.chat_ids.split(","):
-    bot.send_message(chat_id, get_moyu_message())
+    res = requests.get(settings.moyu_url)
+    bot.send_message(chat_id, res.text)

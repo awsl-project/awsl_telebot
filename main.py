@@ -34,7 +34,8 @@ def send_awsl(message: Message):
 
 @bot.message_handler(commands=['moyu', 'mo', 'moyuban'])
 def send_moyu(message: Message):
-    bot.reply_to(message, get_moyu_message())
+    res = requests.get(settings.moyu_url)
+    bot.reply_to(message, res.text)
 
 
 _logger.info("start")
