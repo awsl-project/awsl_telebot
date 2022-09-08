@@ -37,5 +37,11 @@ def send_moyu(message: Message):
     bot.reply_to(message, res.text)
 
 
+@bot.message_handler(commands=['maijiaxiu', 'mjx'])
+def send_mjx(message: Message):
+    res = requests.get(settings.uomg_url)
+    bot.reply_to(message, res.json()["imgurl"])
+
+
 _logger.info("start")
 bot.infinity_polling()
