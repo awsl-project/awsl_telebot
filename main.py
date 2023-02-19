@@ -26,14 +26,14 @@ def send_welcome(message: Message):
 
 @bot.message_handler(commands=['se', 'sese', 'awsl'])
 def send_awsl(message: Message):
-    res = requests.get(settings.url)
+    res = requests.get(f"{settings.api_url}/v2/random")
     _logger.info("get url: %s - chat_id %s", res.text, message.chat.id)
     bot.reply_to(message, res.text)
 
 
 @bot.message_handler(commands=['moyu', 'mo', 'moyuban'])
 def send_moyu(message: Message):
-    res = requests.get(settings.moyu_url)
+    res = requests.get(f"{settings.api_url}/moyu")
     bot.reply_to(message, res.text)
 
 
@@ -41,6 +41,19 @@ def send_moyu(message: Message):
 def send_mjx(message: Message):
     res = requests.get(settings.uomg_url)
     bot.reply_to(message, res.json()["imgurl"])
+
+
+@bot.message_handler(func=lambda message: message.text.startswith(settings.chatgpt_prefix))
+def send_gpt(message: Message):
+    res = requests.post(
+        f"{settings.api_url}/chatgpt",
+        json={
+            "token": settings.api_token,
+            "text": message.text.removeprefix(settings.chatgpt_prefix),
+            "chat_id": "telegram"
+        }
+    )
+    bot.reply_to(message, res.text)
 
 
 _logger.info("start")
